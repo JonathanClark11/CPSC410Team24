@@ -1,0 +1,10 @@
+import ga.ui.MainWindow;
+
+import javax.swing.JFrame;
+
+public class GitAnalyzer {
+	public static void main(String[] args) {
+	    JFrame f = new MainWindow();
+	    f.setVisible(true);
+	}
+}

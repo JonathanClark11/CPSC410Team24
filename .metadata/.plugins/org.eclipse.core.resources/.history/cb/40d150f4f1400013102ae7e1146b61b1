@@ -1,0 +1,5 @@
+package ga.core.adapter;
+
+public class GitAdapter {
+
+}

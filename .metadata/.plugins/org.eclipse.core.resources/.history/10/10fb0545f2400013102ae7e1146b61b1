@@ -1,0 +1,5 @@
+package ga.core.analysis;
+
+public interface Analyzer {
+	public <E> E RunAnalysis(E input);
+}

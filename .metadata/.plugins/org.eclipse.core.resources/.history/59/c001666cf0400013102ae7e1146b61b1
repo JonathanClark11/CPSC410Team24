@@ -1,0 +1,7 @@
+package ga.core.analysis;
+
+import java.util.List;
+
+public interface GitAnalyzer {
+	public Void<E> RunAnalysis(<E> input);
+}
