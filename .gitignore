@@ -4,6 +4,8 @@
 *.class
 *.classpath
 
+Unity/Temp/UnityLockFile
+
 *.DS_Store
 
 # eclipse specific git ignore
