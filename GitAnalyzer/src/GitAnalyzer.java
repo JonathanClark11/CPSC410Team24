@@ -1,6 +1,6 @@
 import ga.core.adapter.GitAdapter;
 import ga.core.analysis.DiffAnalyzer;
-import ga.core.analysis.LogAnalyzer;
+import ga.core.analysis.LogParser;
 import ga.ui.MainWindow;
 
 import javax.swing.JFrame;
@@ -17,9 +17,9 @@ public class GitAnalyzer {
 		String outputFilepath = "...";
 		
 		GitAdapter adapter = new GitAdapter(inputDirectory);
-		DiffAnalyzer diffAnalysis = new DiffAnalyzer();
-		LogAnalyzer logAnalysis = new LogAnalyzer();
+		LogParser logParser = new LogParser();
 		
+		//diffAnalysis.RunAnalysis(adapter.GetDiff(CommitID))
 		/*
 		 * each commit contains
 		 * id
