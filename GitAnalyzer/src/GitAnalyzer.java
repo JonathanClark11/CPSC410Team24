@@ -5,9 +5,6 @@ import java.util.List;
 import edu.nyu.cs.javagit.api.JavaGitException;
 import ga.core.adapter.GitAdapter;
 import ga.core.model.CommitDrop;
-import ga.ui.MainWindow;
-
-import javax.swing.JFrame;
 
 /**
  * The main access point for the program.  
@@ -24,7 +21,7 @@ public class GitAnalyzer {
 		try {
 			List<CommitDrop> commits = adapter.GetLog();
 			for(CommitDrop d : commits) {
-				System.out.println("CID: "+ d.getId());
+				System.out.println("Author: (" + d.getUser() + ") CID: "+ d.getId());
 			}
 		} catch (JavaGitException e) {
 			// TODO Auto-generated catch block

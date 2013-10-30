@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,7 +40,10 @@ public class GitAdapter {
 		
 		List<CommitDrop> returnList = new ArrayList<CommitDrop>();
 		for (Commit c : dotGit.getLog()) {
-			Date commitDate = DateFormat.getDateInstance().parse(c.getDateString());
+			SimpleDateFormat parserSDF=new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy ZZZ");
+			Date commitDate = parserSDF.parse(c.getDateString());
+			
+//			Date commitDate = DateFormat.getDateInstance().parse(c.getDateString());
 			CommitDrop d = new CommitDrop(c.getSha(), c.getLinesDeleted() + c.getLinesInserted(), commitDate, c.getAuthor());
 			returnList.add(d);
 		}
