@@ -10,6 +10,9 @@
 *.pydevproject
 .project
 .metadata
+.metadata/*
+.metadata/**
+.metadata/**/*
 bin/**
 tmp/**
 tmp/**/*

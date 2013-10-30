@@ -13,5 +13,4 @@ public class LogAnalyzer implements Analyzer {
 		System.out.println("DEBUG: " + GitLog);
 		return null;
 	}
-
 }
