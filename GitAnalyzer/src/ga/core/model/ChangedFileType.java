@@ -1,5 +1,5 @@
 package ga.core.model;
 
-public enum CommitType {
+public enum ChangedFileType {
 	BUGFIX, REFACTOR, NEWFEATURE
 }
