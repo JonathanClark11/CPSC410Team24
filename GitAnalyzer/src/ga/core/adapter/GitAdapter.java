@@ -1,10 +1,12 @@
 package ga.core.adapter;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import edu.nyu.cs.javagit.api.commands.GitLogResponse.Commit;
 import edu.nyu.cs.javagit.api.DotGit;
+import edu.nyu.cs.javagit.api.JavaGitException;
 
 /**
  * This file should be the access point to the GitHub API.
@@ -32,11 +34,18 @@ public class GitAdapter {
 	}
 	
 	/**
-	 * Retrieves the Git diff of the current repository
+	 * Retrieves the Git diff of the specified ID
 	 * @param CommitID
 	 * @return
 	 */
-	public String GetDiff(String CommitID) {
+	public Commit GetDiff(String CommitID) throws JavaGitException, IOException{
+		File repositoryDirectory = new File(path);
+		DotGit dotGit = DotGit.getInstance(repositoryDirectory);
+		for (Commit c : dotGit.getLog()) {
+			if (c.getSha() == CommitID) {
+				return c;
+			}
+		}
 		return null;
 	}
 }

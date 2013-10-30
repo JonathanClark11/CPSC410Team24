@@ -2,6 +2,7 @@
 *.war
 *.ear
 *.class
+*.classpath
 
 *.DS_Store
 
@@ -12,6 +13,8 @@
 .metadata/*
 .metadata/**
 .metadata/**/*
+GitAnalyzer/bin
+bin/
 bin/**
 tmp/**
 tmp/**/*
