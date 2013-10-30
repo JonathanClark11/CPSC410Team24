@@ -1,6 +1,9 @@
+import java.io.IOException;
+import java.util.List;
+
+import edu.nyu.cs.javagit.api.JavaGitException;
 import ga.core.adapter.GitAdapter;
-import ga.core.analysis.DiffAnalyzer;
-import ga.core.analysis.LogParser;
+import ga.core.model.CommitDrop;
 import ga.ui.MainWindow;
 
 import javax.swing.JFrame;
@@ -17,7 +20,17 @@ public class GitAnalyzer {
 		String outputFilepath = "...";
 		
 		GitAdapter adapter = new GitAdapter(inputDirectory);
-		LogParser logParser = new LogParser();
+		try {
+			List<CommitDrop> commits = adapter.GetLog();
+			
+		} catch (JavaGitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		//diffAnalysis.RunAnalysis(adapter.GetDiff(CommitID))
 		/*
