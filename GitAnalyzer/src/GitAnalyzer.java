@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 import edu.nyu.cs.javagit.api.JavaGitException;
@@ -16,38 +17,24 @@ import javax.swing.JFrame;
  */
 public class GitAnalyzer {
 	public static void main(String[] args) {
-		String inputDirectory = "...";
+		String inputDirectory = "/Users/jonclark/ws/java";
 		String outputFilepath = "...";
 		
 		GitAdapter adapter = new GitAdapter(inputDirectory);
 		try {
 			List<CommitDrop> commits = adapter.GetLog();
-			
+			for(CommitDrop d : commits) {
+				System.out.println("CID: "+ d.getId());
+			}
 		} catch (JavaGitException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		
-		//diffAnalysis.RunAnalysis(adapter.GetDiff(CommitID))
-		/*
-		 * each commit contains
-		 * id
-		 * flag - conflict
-		 * size
-		 * files used
-		 * time
-		 */
-		
-		/*
-		 * make adapter
-		 * pull information and run through diffanalayzer, loganalyzer
-		 * send the output through a file saver
-		 */
-	    JFrame f = new MainWindow();
-	    f.setVisible(true);
 	}
 }

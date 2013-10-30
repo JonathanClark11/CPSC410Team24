@@ -2,7 +2,10 @@ package ga.core.adapter;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import edu.nyu.cs.javagit.api.commands.GitLogResponse.Commit;
@@ -28,14 +31,16 @@ public class GitAdapter {
 	/**
 	 * Retrieves the Git log of the current repository.
 	 * @return
+	 * @throws ParseException 
 	 */
-	public List<CommitDrop> GetLog() throws JavaGitException, IOException {
+	public List<CommitDrop> GetLog() throws JavaGitException, IOException, ParseException {
 		File repositoryDirectory = new File(path);
 		DotGit dotGit = DotGit.getInstance(repositoryDirectory);
 		
 		List<CommitDrop> returnList = new ArrayList<CommitDrop>();
 		for (Commit c : dotGit.getLog()) {
-			CommitDrop d = new CommitDrop();
+			Date commitDate = DateFormat.getDateInstance().parse(c.getDateString());
+			CommitDrop d = new CommitDrop(c.getSha(), c.getLinesDeleted() + c.getLinesInserted(), commitDate, c.getAuthor());
 			returnList.add(d);
 		}
 		return returnList;
