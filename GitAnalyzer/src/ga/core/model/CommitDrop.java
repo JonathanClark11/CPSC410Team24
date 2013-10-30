@@ -24,14 +24,16 @@ public class CommitDrop {
 	 * @param bugFixes
 	 * @param refactors
 	 * @param newFeatures
+	 * @param merge 
 	 */
 	public CommitDrop(String id, int size, Date date, String user,
-			boolean conflict, int bugFixes, int refactors, int newFeatures) {
+			boolean conflict, int bugFixes, int refactors, int newFeatures, boolean merge) {
 		super();
 		this.id = id;
 		this.size = size;
 		this.date = date;
 		this.user = user;
+		this.merge = merge;
 	}
 
 	/**
