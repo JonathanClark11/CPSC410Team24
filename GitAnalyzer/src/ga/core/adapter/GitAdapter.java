@@ -1,5 +1,11 @@
 package ga.core.adapter;
 
+import java.io.File;
+import java.util.List;
+
+import edu.nyu.cs.javagit.api.commands.GitLogResponse.Commit;
+import edu.nyu.cs.javagit.api.DotGit;
+
 /**
  * This file should be the access point to the GitHub API.
  * @author jonclark
@@ -19,9 +25,10 @@ public class GitAdapter {
 	 * Retrieves the Git log of the current repository.
 	 * @return
 	 */
-	public String GetLog() {
-		//TODO: retrieve the git log
-		return null;
+	public List<Commit> GetLog() throws Exception {
+		File repositoryDirectory = new File(path);
+		DotGit dotGit = DotGit.getInstance(repositoryDirectory);
+		return dotGit.getLog();
 	}
 	
 	/**
