@@ -9,6 +9,7 @@ public class CommitDrop {
 	private Date date;
 	private String user;
 	private boolean conflict;
+	private boolean merge;
 	private int bugFixes;
 	private int refactors;
 	private int newFeatures;
@@ -31,10 +32,6 @@ public class CommitDrop {
 		this.size = size;
 		this.date = date;
 		this.user = user;
-		this.conflict = conflict;
-		this.bugFixes = bugFixes;
-		this.refactors = refactors;
-		this.newFeatures = newFeatures;
 	}
 
 	/**
@@ -162,6 +159,22 @@ public class CommitDrop {
 	 */
 	public void setNewFeature(int newFeature) {
 		this.newFeatures = newFeature;
+	}
+
+	/**
+	 * Is this commit a merged branch?
+	 * @return merge status
+	 */
+	public boolean isMerge() {
+		return merge;
+	}
+
+	/**
+	 * Set the status of the commit as merge or not
+	 * @param merge
+	 */
+	public void setMerge(boolean merge) {
+		this.merge = merge;
 	}
 
 }
