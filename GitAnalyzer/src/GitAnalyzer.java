@@ -14,23 +14,25 @@ import ga.core.model.CommitDrop;
  */
 public class GitAnalyzer {
 	public static void main(String[] args) {
-		String inputDirectory = "/Users/jonclark/ws/java";
+		String inputDirectory = "/Users/jonclark/ws/CPSC410Team24";
 		String outputFilepath = "...";
 		
 		GitAdapter adapter = new GitAdapter(inputDirectory);
 		try {
 			List<CommitDrop> commits = adapter.GetLog();
 			for(CommitDrop d : commits) {
-				System.out.println("Author: (" + d.getUser() + ") CID: "+ d.getId());
+				System.out.println("Author: " + d.getUser());
+				System.out.println("CID: "+ d.getId());
+				System.out.println("Date: " + d.getDate().toString());
+				System.out.println("Size (SLOC): "+ d.getSize());
+				System.out.println("Refactors: "+ d.getRefactor());
+				System.out.println("New Features: "+ d.getNewFeature());
 			}
 		} catch (JavaGitException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
