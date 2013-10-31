@@ -22,8 +22,8 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.unity3d.player.UnityPlayer;
-import com.unity3d.player.UnityPlayerActivity;
+//import com.unity3d.player.UnityPlayer;
+//import com.unity3d.player.UnityPlayerActivity;
 
 /**
  * 
@@ -33,7 +33,7 @@ import com.unity3d.player.UnityPlayerActivity;
 
 public class FileAdapter{
 
-	private UnityPlayer mUnityPlayer;
+	//private UnityPlayer mUnityPlayer;
 	List<CommitDrop> commits = new ArrayList<CommitDrop>();
 
 	/*public void SendMessageToUnity()
