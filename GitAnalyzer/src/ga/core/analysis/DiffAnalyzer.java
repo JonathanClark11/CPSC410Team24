@@ -1,6 +1,5 @@
 package ga.core.analysis;
 
-import ga.core.adapter.GitAdapter;
 import ga.core.model.CommitDrop;
 
 import java.util.List;
@@ -10,20 +9,20 @@ import java.util.List;
  * @author jonclark
  *
  */
-public class DiffAnalyzer{
+public class DiffAnalyzer implements Analyzer{
 
 	public List<CommitDrop> RunAnalysis(List<CommitDrop> input) {
 		for (CommitDrop d : input) {
-//			List<CommitFile> files = d.
+			d.setSize(23); //FOR TESTING PURPOSES
 			if (d.getSize() <= 10) {
-//				d.set
+	 			d.setBugFix(d.getBugFix()+1);
 			} else if (d.getSize() > 10 && d.getSize() <= 100) {
 				
 			} else {
 				d.setNewFeature(1);
 			}
 		}
-		return null;
+		return input;
 	}
 
 }

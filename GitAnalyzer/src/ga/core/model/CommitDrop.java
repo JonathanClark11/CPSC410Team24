@@ -32,7 +32,6 @@ public class CommitDrop {
 		this.size = size;
 		this.date = date;
 		this.user = user;
-		this.merge = merge;
 	}
 
 	/**

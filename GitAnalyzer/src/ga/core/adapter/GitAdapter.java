@@ -2,7 +2,6 @@ package ga.core.adapter;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 import edu.nyu.cs.javagit.api.commands.GitLogResponse.Commit;
-import edu.nyu.cs.javagit.api.commands.GitLogResponse.CommitFile;
 import edu.nyu.cs.javagit.api.DotGit;
 import edu.nyu.cs.javagit.api.JavaGitException;
 import ga.core.model.CommitDrop;
@@ -44,19 +42,7 @@ public class GitAdapter {
 			SimpleDateFormat parserSDF=new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy ZZZ");
 			Date commitDate = parserSDF.parse(c.getDateString());
 			
-//			Date commitDate = DateFormat.getDateInstance().parse(c.getDateString());
 			CommitDrop d = new CommitDrop(c.getSha(), c.getLinesDeleted() + c.getLinesInserted(), commitDate, c.getAuthor());
-			if (c.getFiles() != null) {
-				for (CommitFile f : c.getFiles()) {
-					if (f == null) continue;
-					if (f.getLinesAdded() == 0) {
-						d.setRefactor(d.getRefactor()+1);
-					}
-					if (f.getLinesDeleted() == 0) {
-						d.setNewFeature(d.getNewFeature()+1);
-					}
-				}
-			}
 			returnList.add(d);
 		}
 		return returnList;

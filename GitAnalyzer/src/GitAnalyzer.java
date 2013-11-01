@@ -4,6 +4,8 @@ import java.util.List;
 
 import edu.nyu.cs.javagit.api.JavaGitException;
 import ga.core.adapter.GitAdapter;
+import ga.core.analysis.Analyzer;
+import ga.core.analysis.DiffAnalyzer;
 import ga.core.model.CommitDrop;
 
 /**
@@ -15,11 +17,14 @@ import ga.core.model.CommitDrop;
 public class GitAnalyzer {
 	public static void main(String[] args) {
 		String inputDirectory = "/Users/jonclark/ws/CPSC410Team24";
-		String outputFilepath = "...";
-		
+		String outputFilepath = "/Users/jonclark/ws/CPSC410Team24/output/test.xml";
+		System.out.println("Input Repo: " + inputDirectory);
+		System.out.println("Output File: " + outputFilepath);
 		GitAdapter adapter = new GitAdapter(inputDirectory);
 		try {
 			List<CommitDrop> commits = adapter.GetLog();
+			Analyzer diffAnalysis = new DiffAnalyzer();
+			commits = diffAnalysis.RunAnalysis(commits);
 			for(CommitDrop d : commits) {
 				System.out.println("Author: " + d.getUser());
 				System.out.println("CID: "+ d.getId());
