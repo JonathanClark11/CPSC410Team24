@@ -61,44 +61,50 @@ public class FileAdapter{
 			Element root = doc.createElement("Commits");
 			doc.appendChild(root);
 
-			/*	Element Details = doc.createElement("Details");
-		root.appendChild(Details);*/
+			Element commit = doc.createElement("Commit");
+			root.appendChild(commit);	
 
 
 			for(int i=0; i<commits.size(); i++) {
-
+				
+				
+				
 				Element date = doc.createElement("Date");
 				date.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getDate())));
-				root.appendChild(date);
+				commit.appendChild(date);
 
 				Element user = doc.createElement("User");
 				user.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getUser())));
-				root.appendChild(user);
+				commit.appendChild(user);
 
 				Element id = doc.createElement("Id");
 				id.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getId())));
-				root.appendChild(id);
+				commit.appendChild(id);
 
 				Element size = doc.createElement("Size");
 				size.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getSize())));
-				root.appendChild(size);
+				commit.appendChild(size);
 
 				Element merge = doc.createElement("Merge");
 				merge.appendChild(doc.createTextNode(String.valueOf(commits.get(i).isMerge())));
-				root.appendChild(merge);
+				commit.appendChild(merge);
 
 				Element conflict = doc.createElement("Conflict");
 				conflict.appendChild(doc.createTextNode(String.valueOf(commits.get(i).isConflict())));
-				root.appendChild(conflict);
+				commit.appendChild(conflict);
 
 				Element bFN = doc.createElement("BugFixNumber");
 				bFN.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getBugFix())));
-				root.appendChild(bFN);
+				commit.appendChild(bFN);
 
 				Element numRefs = doc.createElement("NumRefs");
 				numRefs.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getNewFeature())));
-				root.appendChild(id);
+				commit.appendChild(id);
 
+				commit.appendChild(commit);
+				
+				commit.appendChild(commit);
+				
 			}
 
 			// Save the document to the disk file
