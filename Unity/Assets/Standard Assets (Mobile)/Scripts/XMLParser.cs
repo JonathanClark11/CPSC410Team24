@@ -1,4 +1,4 @@
-﻿/* using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
@@ -20,7 +20,7 @@ public class XMLParser : MonoBehaviour
         string xmlfile = "/home/commits.xml";
 		XmlDocument xmlDoc = new XmlDocument();  //xmlDoc is the new xml Document
 		xmlDoc.LoadXml(xmlfile); // load the file
-		XmlNodeList dropsList = xmlDoc.GetElementsByTagName("Commits"); // array of commits
+		XmlNodeList dropsList = xmlDoc.GetElementsByTagName("Commit"); // array of commits
 
         foreach (XmlNode drop in dropsList)
         {
@@ -29,7 +29,6 @@ public class XMLParser : MonoBehaviour
 
             foreach (XmlNode dropInfo in droplet)
             {
-
                 if (dropInfo.Name == "Date")
                 {
                     obj.Add("Date", dropInfo.InnerText);
@@ -68,4 +67,3 @@ public class XMLParser : MonoBehaviour
 	}
 
 }
- */
