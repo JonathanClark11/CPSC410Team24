@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Xml;
 
 public class XMLParser : MonoBehaviour
 {
 
-    Droplet<string, string, string, string, string, string, string, string> obj; // this can't be right...
-    List<Droplet> drops = new List<Droplet>();
-
+	List<Dictionary<string,string>> drops = new List<Dictionary<string,string>>();
+	Dictionary<string,string> obj;
 
     // Use this for initialization
     void Start()
@@ -18,14 +18,14 @@ public class XMLParser : MonoBehaviour
     public void GetDrop() {
 
         string xmlfile = "/home/commits.xml";
-		XMLDocument xmlDoc = new XmlDocument();  //xmlDoc is the new xml Document
+		XmlDocument xmlDoc = new XmlDocument();  //xmlDoc is the new xml Document
 		xmlDoc.LoadXml(xmlfile); // load the file
 		XmlNodeList dropsList = xmlDoc.GetElementsByTagName("Commits"); // array of commits
 
         foreach (XmlNode drop in dropsList)
         {
             XmlNodeList droplet = drop.ChildNodes;
-            obj = new Droplet<string, string, string, string, string, string, string, string>();
+            obj = new Dictionary<string, string>();
 
             foreach (XmlNode dropInfo in droplet)
             {
