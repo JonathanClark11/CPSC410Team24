@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.nyu.cs.javagit.api.JavaGitException;
 import ga.core.adapter.GitAdapter;
+import ga.core.adapter.UnityAdapter;
 import ga.core.analysis.Analyzer;
 import ga.core.analysis.DiffAnalyzer;
 import ga.core.model.CommitDrop;
@@ -21,18 +22,9 @@ public class GitAnalyzer {
 		System.out.println("Input Repo: " + inputDirectory);
 		System.out.println("Output File: " + outputFilepath);
 		GitAdapter adapter = new GitAdapter(inputDirectory);
+		List<CommitDrop> commits = null;
 		try {
-			List<CommitDrop> commits = adapter.GetLog();
-			Analyzer diffAnalysis = new DiffAnalyzer();
-			commits = diffAnalysis.RunAnalysis(commits);
-			for(CommitDrop d : commits) {
-				System.out.println("Author: " + d.getUser());
-				System.out.println("CID: "+ d.getId());
-				System.out.println("Date: " + d.getDate().toString());
-				System.out.println("Size (SLOC): "+ d.getSize());
-				System.out.println("Refactors: "+ d.getRefactor());
-				System.out.println("New Features: "+ d.getNewFeature());
-			}
+			commits = adapter.GetLog();
 		} catch (JavaGitException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -40,5 +32,23 @@ public class GitAnalyzer {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		if (commits == null) {
+			return;
+		}
+		Analyzer diffAnalysis = new DiffAnalyzer();
+		commits = diffAnalysis.RunAnalysis(commits);
+		for(CommitDrop d : commits) {
+			System.out.println("Author: " + d.getUser());
+			System.out.println("CID: "+ d.getId());
+			System.out.println("Date: " + d.getDate().toString());
+			System.out.println("Size (SLOC): "+ d.getSize());
+			System.out.println("Refactors: "+ d.getRefactor());
+			System.out.println("New Features: "+ d.getNewFeature());
+		}
+		
+		UnityAdapter uadapter = new UnityAdapter(outputFilepath);
+		System.out.println("Exporting to file");
+		uadapter.saveFile(commits);
+		System.out.println("File Saved");
 	}
 }

@@ -28,10 +28,15 @@ import org.w3c.dom.Element;
  *
  */
 
-public class FileAdapter{
-
+public class UnityAdapter{
+	private String filepath;
 	//private UnityPlayer mUnityPlayer;
 	List<CommitDrop> commits = new ArrayList<CommitDrop>();
+	
+	public UnityAdapter(String filepath) {
+		this.filepath = filepath;
+	}
+	
 
 	/*public void SendMessageToUnity()
 	{
@@ -61,13 +66,9 @@ public class FileAdapter{
 			Element root = doc.createElement("Commits");
 			doc.appendChild(root);
 
-			Element commit = doc.createElement("Commit");
-			root.appendChild(commit);	
-
-
 			for(int i=0; i<commits.size(); i++) {
 				
-				
+				Element commit = doc.createElement("Commit");
 				
 				Element date = doc.createElement("Date");
 				date.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getDate())));
@@ -100,11 +101,8 @@ public class FileAdapter{
 				Element numRefs = doc.createElement("NumRefs");
 				numRefs.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getNewFeature())));
 				commit.appendChild(id);
-
-				commit.appendChild(commit);
 				
-				commit.appendChild(commit);
-				
+				root.appendChild(commit);
 			}
 
 			// Save the document to the disk file
@@ -121,7 +119,7 @@ public class FileAdapter{
 
 			DOMSource source = new DOMSource(doc);
 			try {
-				FileWriter fos = new FileWriter("/home/commits.xml");
+				FileWriter fos = new FileWriter(filepath);
 				StreamResult result = new StreamResult(fos);
 				aTransformer.transform(source, result);
 
