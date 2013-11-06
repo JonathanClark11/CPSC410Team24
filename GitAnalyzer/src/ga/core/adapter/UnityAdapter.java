@@ -30,33 +30,13 @@ import org.w3c.dom.Element;
 
 public class UnityAdapter{
 	private String filepath;
-	//private UnityPlayer mUnityPlayer;
 	List<CommitDrop> commits = new ArrayList<CommitDrop>();
 	
 	public UnityAdapter(String filepath) {
 		this.filepath = filepath;
 	}
-	
 
-	/*public void SendMessageToUnity()
-	{
-		//mUnityPlayer = new UnityPlayer(getActivity()); // Put your activity object here
-	    //int glesMode = mPlayer.getSettings().getInt("gles_mode", 1);
-	    //boolean trueColor8888 = false;
-	    //mPlayer.init(glesMode, trueColor8888);
-
-	    // Get the view - e.g. to return from the fragment method onCreateView:
-	    //View view = mPlayer.getView();
-
-
-	    UnitySendMessage(commits, "ShowDroplets", commits); //.UnitySendMessage("ShowDroplets",commits);
-
-
-	//commits.add("test");
-
-	}*/
-
-	public void saveFile(List<CommitDrop> commits){
+	public void saveFile(List<CommitDrop> commits) {
 
 		try {
 			DocumentBuilderFactory dFact = DocumentBuilderFactory.newInstance();

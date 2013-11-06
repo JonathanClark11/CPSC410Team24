@@ -13,18 +13,15 @@ public class CommitDrop {
 	private int bugFixes;
 	private int refactors;
 	private int newFeatures;
+	
+	private String diff;
 
 	/**
 	 * Constructs the CommitDrop class
-	 * @param id
-	 * @param size
-	 * @param date
-	 * @param user
-	 * @param conflict
-	 * @param bugFixes
-	 * @param refactors
-	 * @param newFeatures
-	 * @param merge 
+	 * @param id - The SHA id of the Commit
+	 * @param size - The number of lines changed
+	 * @param date - The date of the commit
+	 * @param user - The author of the commit
 	 */
 	public CommitDrop(String id, int size, Date date, String user) {
 		super();
@@ -176,5 +173,12 @@ public class CommitDrop {
 	public void setMerge(boolean merge) {
 		this.merge = merge;
 	}
-
+	
+	public String getDiff() {
+		return diff;
+	}
+	
+	public void setDiff(String diff) {
+		this.diff = diff;
+	}
 }

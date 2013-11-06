@@ -2,6 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="lib/javagit-0.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.jgit-3.1.0.201310021548-r.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/Users/jonclark/ws/CPSC410Team24/GitAnalyzer/lib/org.eclipse.jgit-3.1.0.201310021548-r-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
