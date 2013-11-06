@@ -21,10 +21,10 @@ public class DiffAnalyzer implements Analyzer{
 			int commitSize = findLinesChanged(d.getDiff());
 			d.setSize(commitSize);
 			System.out.println("Commit Size: " + commitSize);
-			
+
 			if (commitSize < 200) {
-	 			d.setBugFix(d.getBugFix()+1);
-	 			bugFixes++;
+				d.setBugFix(d.getBugFix()+1);
+				bugFixes++;
 			} else if (commitSize >= 200 && commitSize <= 400) {
 				d.setNewFeature(d.getNewFeature()+1);
 				features++;
@@ -41,20 +41,20 @@ public class DiffAnalyzer implements Analyzer{
 		System.out.println("Uncategorized Total: " + uncategorized);
 		return input;
 	}
-	
+
 	private int findLinesChanged(String difftext) {
-	    String pattern = "(@)(@) ([-+]\\d+),(\\d+) ([-+]\\d+),(\\d+) (@)(@)";
-	    Pattern p = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-	    Matcher m = p.matcher(difftext);
-	    System.out.println("Diff Length: "+ difftext.length());
-	    int linesAdded = 0;
-	    int linesRemoved = 0;
-	    while (m.find())
-	    {   
-	        linesAdded += Integer.parseInt(m.group(6));
-	        linesRemoved += Integer.parseInt(m.group(4));
-	    }
-	    return linesAdded + linesRemoved;
+		String pattern = "(@)(@) ([-+]\\d+),(\\d+) ([-+]\\d+),(\\d+) (@)(@)";
+		Pattern p = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+		Matcher m = p.matcher(difftext);
+		System.out.println("Diff Length: "+ difftext.length());
+		int linesAdded = 0;
+		int linesRemoved = 0;
+		while (m.find())
+		{   
+			linesAdded += Integer.parseInt(m.group(6));
+			linesRemoved += Integer.parseInt(m.group(4));
+		}
+		return linesAdded + linesRemoved;
 	}
 
 }

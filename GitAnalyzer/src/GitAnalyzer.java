@@ -1,15 +1,14 @@
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.List;
-
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.NoHeadException;
-
 import ga.core.adapter.GitAdapter;
 import ga.core.adapter.UnityAdapter;
 import ga.core.analysis.Analyzer;
 import ga.core.analysis.DiffAnalyzer;
 import ga.core.model.CommitDrop;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.NoHeadException;
 
 /**
  * The main access point for the program.  
@@ -25,7 +24,7 @@ public class GitAnalyzer {
 		System.out.println("Output File: " + outputFilepath);
 		GitAdapter adapter = new GitAdapter(inputDirectory);
 		List<CommitDrop> commits = null;
-		
+
 		try {
 			commits = adapter.GetJGitLog();
 		} catch (NoHeadException e) {
@@ -35,21 +34,21 @@ public class GitAnalyzer {
 		} catch (GitAPIException e) {
 			e.printStackTrace();
 		}
-		
+
 		if (commits == null) {
 			return;
 		}
 		Analyzer diffAnalysis = new DiffAnalyzer();
 		commits = diffAnalysis.RunAnalysis(commits);
-//		for(CommitDrop d : commits) {
-//			System.out.println("Author: " + d.getUser());
-//			System.out.println("CID: "+ d.getId());
-//			System.out.println("Date: " + d.getDate().toString());
-//			System.out.println("Size (SLOC): "+ d.getSize());
-//			System.out.println("Refactors: "+ d.getRefactor());
-//			System.out.println("New Features: "+ d.getNewFeature());
-//		}
-		
+		//		for(CommitDrop d : commits) {
+		//			System.out.println("Author: " + d.getUser());
+		//			System.out.println("CID: "+ d.getId());
+		//			System.out.println("Date: " + d.getDate().toString());
+		//			System.out.println("Size (SLOC): "+ d.getSize());
+		//			System.out.println("Refactors: "+ d.getRefactor());
+		//			System.out.println("New Features: "+ d.getNewFeature());
+		//		}
+
 		UnityAdapter uadapter = new UnityAdapter(outputFilepath);
 		System.out.println("Exporting to file: " + outputFilepath);
 		uadapter.saveFile(commits);

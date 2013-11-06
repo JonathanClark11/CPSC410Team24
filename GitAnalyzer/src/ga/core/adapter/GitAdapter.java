@@ -17,8 +17,6 @@ import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.RawTextComparator;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -54,23 +52,23 @@ public class GitAdapter {
 		List<CommitDrop> commits = new ArrayList<CommitDrop>();
 		FileRepositoryBuilder builder = new FileRepositoryBuilder();
 		Repository repository = builder.setGitDir(new File(path))
-		  .readEnvironment() // scan environment GIT_* variables
-		  .findGitDir() // scan up the file system tree
-		  .build();
+				.readEnvironment() // scan environment GIT_* variables
+				.findGitDir() // scan up the file system tree
+				.build();
 		Git git = new Git(repository);
 		Iterable<RevCommit> log = git.log().call();
-		
+
 		for (Iterator<RevCommit> iterator = log.iterator(); iterator.hasNext();) {
-	        RevCommit rev = iterator.next();
-	        System.out.println("Loaded Commit: " + rev.getName());
-	        CommitDrop d = new CommitDrop(rev.getName(), 0, new Date(rev.getCommitTime()), rev.getAuthorIdent().getName());
-	        AddDiffData(repository, rev, d);
-	        commits.add(d);
-	    }
-		
+			RevCommit rev = iterator.next();
+			System.out.println("Loaded Commit: " + rev.getName());
+			CommitDrop d = new CommitDrop(rev.getName(), 0, new Date(rev.getCommitTime()), rev.getAuthorIdent().getName());
+			AddDiffData(repository, rev, d);
+			commits.add(d);
+		}
+
 		return commits;
 	}
-	
+
 	/**
 	 * Adds missing data to our commit object
 	 * @param repository
@@ -79,18 +77,6 @@ public class GitAdapter {
 	 */
 	void AddDiffData(Repository repository, RevCommit commit, CommitDrop newCommit) {
 		RevWalk rw = new RevWalk(repository);
-		RevCommit parent = null;
-		if (commit.getParentCount() > 0 && commit.getParent(0) != null) {
-			try {
-				parent = rw.parseCommit(commit.getParent(0).getId());
-			} catch (MissingObjectException e) {
-				e.printStackTrace();
-			} catch (IncorrectObjectTypeException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		DiffFormatter df = new DiffFormatter(out);
