@@ -1,7 +1,15 @@
 package ga.core.model;
 
 import java.util.Date;
+import java.util.List;
 
+import org.eclipse.jgit.diff.DiffEntry;
+
+/**
+ * The CommitDrop Model for our git analyzer
+ * @author Ioana Bercea
+ * @author Jonathan Clark
+ */
 public class CommitDrop {
 
 	private String id;
@@ -15,6 +23,12 @@ public class CommitDrop {
 	private int newFeatures;
 	
 	private String diff;
+	/**
+	 * ChangeTypes are an array to simulate DiffEntry.ChangeType enum, but instead this is a tally
+	 * See: http://download.eclipse.org/jgit/docs/jgit-2.0.0.201206130900-r/apidocs/org/eclipse/jgit/diff/DiffEntry.ChangeType.html
+	 * [0] = ADD, [1] = COPY, [2] = DELETE, [3] = MODIFY, [4] = RENAME
+	 */
+	private int[] changeTypes = new int[5];
 
 	/**
 	 * Constructs the CommitDrop class
@@ -174,11 +188,43 @@ public class CommitDrop {
 		this.merge = merge;
 	}
 	
+	/**
+	 * @return
+	 */
 	public String getDiff() {
 		return diff;
 	}
 	
+	/**
+	 * @param diff
+	 */
 	public void setDiff(String diff) {
 		this.diff = diff;
+	}
+	
+	/**
+	 * @return
+	 */
+	public int[] getChangeTypes() {
+		return changeTypes;
+	}
+	/**
+	 * @param changeTypes
+	 */
+	public void setChangeTypes(int[] changeTypes) {
+		this.changeTypes = changeTypes;
+	}
+	/**
+	 * @param index
+	 * @param value
+	 */
+	public void setChangeTypes(int index, int value) {
+		this.changeTypes[index] = value;
+	}
+	/**
+	 * @param index
+	 */
+	public void incrementChangeType(int index) {
+		this.changeTypes[index]++;
 	}
 }

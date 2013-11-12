@@ -2,6 +2,7 @@ package ga.core.analysis;
 
 import ga.core.model.CommitDrop;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,18 +18,26 @@ public class DiffAnalyzer implements Analyzer{
 		int bugFixes = 0, refactors = 0, features = 0, uncategorized = 0;
 		System.out.println("Running Diff Analysis----------------");
 		for (CommitDrop d : input) {
-			System.out.println("Running Diff on Commit: " + d.getId());
+			System.out.println("Running Diff Analysis on: " + d.getId());
+			if (d.getDiff() == null) {
+				System.out.println("NULL DIFF - Possible Root");
+				continue;
+			}
 			int commitSize = findLinesChanged(d.getDiff());
 			d.setSize(commitSize);
 			System.out.println("Commit Size: " + commitSize);
 
+			
+			System.out.println("CHANGE TYPES: " + Arrays.toString(d.getChangeTypes()));
+			
+			
 			if (commitSize < 200) {
 				d.setBugFix(d.getBugFix()+1);
 				bugFixes++;
 			} else if (commitSize >= 200 && commitSize <= 400) {
 				d.setNewFeature(d.getNewFeature()+1);
 				features++;
-			} else if (commitSize > 400 && commitSize < 1000){
+			} else if ((commitSize > 400 && commitSize < 1000) || d.getChangeTypes()[4] > 0){
 				refactors++;
 				d.setRefactor(d.getRefactor()+1);
 			} else {
