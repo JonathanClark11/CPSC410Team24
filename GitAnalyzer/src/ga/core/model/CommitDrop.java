@@ -1,9 +1,6 @@
 package ga.core.model;
 
 import java.util.Date;
-import java.util.List;
-
-import org.eclipse.jgit.diff.DiffEntry;
 
 /**
  * The CommitDrop Model for our git analyzer
