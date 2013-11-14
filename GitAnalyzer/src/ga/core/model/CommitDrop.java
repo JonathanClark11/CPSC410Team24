@@ -11,6 +11,7 @@ public class CommitDrop {
 
 	private String id;
 	private int size;
+	private double ratioSize;
 	private Date date;
 	private String user;
 	private boolean conflict;
@@ -223,5 +224,9 @@ public class CommitDrop {
 	 */
 	public void incrementChangeType(int index) {
 		this.changeTypes[index]++;
+	}
+
+	public void setRatioSize(double ratioSize) {
+		this.ratioSize = ratioSize;
 	}
 }

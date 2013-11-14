@@ -1,6 +1,7 @@
 package ga.core.analysis;
 
 import ga.core.model.CommitDrop;
+import ga.util.NormUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +17,7 @@ public class DiffAnalyzer implements Analyzer{
 
 	public List<CommitDrop> RunAnalysis(List<CommitDrop> input) {
 		int bugFixes = 0, refactors = 0, features = 0, uncategorized = 0;
-		int maxSize = 0;
+		int maxSize = 0, minSize = -1;
 		System.out.println("Running Diff Analysis----------------");
 		for (CommitDrop d : input) {
 			System.out.println("Running Diff Analysis on: " + d.getId());
@@ -28,6 +29,9 @@ public class DiffAnalyzer implements Analyzer{
 			d.setSize(commitSize);
 			if (commitSize > maxSize) { 
 				maxSize = commitSize;
+			}
+			if (commitSize <= minSize || minSize <= 0) { //include zero to ignore 0 sized changes
+				minSize = commitSize;
 			}
 			System.out.println("Commit Size: " + commitSize);
 			System.out.println("CHANGE TYPES: " + Arrays.toString(d.getChangeTypes()));
@@ -46,6 +50,15 @@ public class DiffAnalyzer implements Analyzer{
 			}
 		}
 		
+		for (CommitDrop d : input) {
+			NormUtil util = new NormUtil((double)maxSize, (double)minSize, 0.1, 1.0);
+			double ratioSize = util.normalize(d.getSize());
+			System.out.println("Ratio: " + ratioSize);
+			d.setRatioSize(ratioSize);
+		}
+		
+		System.out.println("");
+		System.out.println("Min Commit Size: " + minSize);
 		System.out.println("Max Commit Size: " + maxSize);
 		System.out.println("Refactors total: " + refactors);
 		System.out.println("Bug Fixes Total: " + bugFixes);
