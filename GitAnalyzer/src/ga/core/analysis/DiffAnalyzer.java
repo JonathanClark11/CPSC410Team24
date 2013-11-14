@@ -16,6 +16,7 @@ public class DiffAnalyzer implements Analyzer{
 
 	public List<CommitDrop> RunAnalysis(List<CommitDrop> input) {
 		int bugFixes = 0, refactors = 0, features = 0, uncategorized = 0;
+		int maxSize = 0;
 		System.out.println("Running Diff Analysis----------------");
 		for (CommitDrop d : input) {
 			System.out.println("Running Diff Analysis on: " + d.getId());
@@ -25,11 +26,11 @@ public class DiffAnalyzer implements Analyzer{
 			}
 			int commitSize = findLinesChanged(d.getDiff());
 			d.setSize(commitSize);
+			if (commitSize > maxSize) { 
+				maxSize = commitSize;
+			}
 			System.out.println("Commit Size: " + commitSize);
-
-			
 			System.out.println("CHANGE TYPES: " + Arrays.toString(d.getChangeTypes()));
-			
 			
 			if (commitSize < 200) {
 				d.setBugFix(d.getBugFix()+1);
@@ -44,10 +45,13 @@ public class DiffAnalyzer implements Analyzer{
 				uncategorized++;
 			}
 		}
+		
+		System.out.println("Max Commit Size: " + maxSize);
 		System.out.println("Refactors total: " + refactors);
 		System.out.println("Bug Fixes Total: " + bugFixes);
 		System.out.println("New Features Total: " + features);
 		System.out.println("Uncategorized Total: " + uncategorized);
+		
 		return input;
 	}
 
