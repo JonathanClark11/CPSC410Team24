@@ -4,6 +4,8 @@
 *.class
 *.classpath
 
+output/
+
 Unity/Temp/UnityLockFile
 
 *.DS_Store
