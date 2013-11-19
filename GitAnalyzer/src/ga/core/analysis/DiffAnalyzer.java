@@ -30,19 +30,53 @@ public class DiffAnalyzer implements Analyzer{
 			
 			System.out.println("CHANGE TYPES: " + Arrays.toString(d.getChangeTypes()));
 			
+			//[0] = Refactor, [1] = Bug Fix, [2] = New Feature
+			final int pointsDist[] = {0, 0, 0};
 			
+//			CHECK COMMENTS FOR HINTS
+			final String commitmsg = d.getCommitMessage().toLowerCase();
+			if (commitmsg.contains("merge")) {
+				//We need to check for conflict 
+			}
+			if (commitmsg.contains("bugfix")) {
+				pointsDist[1] += 3; //clear definition of bugfix
+			}
+			
+//			CHECK CHANGE TYPE
+			if (d.getChangeTypes()[4] > 0) {	//if renamed files
+				pointsDist[0] += 2;	//refactor+2
+			}
+			if (d.getChangeTypes()[0] > 0) {	//if added files
+				pointsDist[2] += 2; //newfeatures+2
+			}
+
+//			CHECK FOR COMMIT SIZE
 			if (commitSize < 200) {
-				d.setBugFix(d.getBugFix()+1);
-				bugFixes++;
+				pointsDist[1] += 1;
 			} else if (commitSize >= 200 && commitSize <= 400) {
-				d.setNewFeature(d.getNewFeature()+1);
-				features++;
-			} else if ((commitSize > 400 && commitSize < 1000) || d.getChangeTypes()[4] > 0){
+				pointsDist[2] += 1;
+			} else if ((commitSize > 400 && commitSize < 1000)){
+				pointsDist[0] += 1;
+			}
+			
+//			TALLY UP VOTES!
+			switch (getMaxIndex(pointsDist)) {
+			case 0:
 				refactors++;
 				d.setRefactor(d.getRefactor()+1);
-			} else {
-				uncategorized++;
+				break;
+			case 1:
+				bugFixes++;
+				d.setBugFix(d.getBugFix()+1);
+				break;
+			case 2:
+				features++;
+				d.setNewFeature(d.getNewFeature()+1);
+				break;
+			default:
+				break;
 			}
+			
 		}
 		System.out.println("Refactors total: " + refactors);
 		System.out.println("Bug Fixes Total: " + bugFixes);
@@ -50,7 +84,18 @@ public class DiffAnalyzer implements Analyzer{
 		System.out.println("Uncategorized Total: " + uncategorized);
 		return input;
 	}
-
+	
+	private int getMaxIndex(int arr[]) {
+		int maxIndex = 0, max=0;
+		for (int i = 0; i < arr.length; i++) {
+		    if (arr[i] > max) {
+		        max = arr[i];
+		        maxIndex = i;
+		    }
+		}
+		return maxIndex;
+	}
+	
 	private int findLinesChanged(String difftext) {
 		String pattern = "(@)(@) ([-+]\\d+),(\\d+) ([-+]\\d+),(\\d+) (@)(@)";
 		Pattern p = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);

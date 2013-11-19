@@ -18,6 +18,7 @@ public class CommitDrop {
 	private int bugFixes;
 	private int refactors;
 	private int newFeatures;
+	private String commitMessage;
 	
 	private String diff;
 	/**
@@ -34,12 +35,13 @@ public class CommitDrop {
 	 * @param date - The date of the commit
 	 * @param user - The author of the commit
 	 */
-	public CommitDrop(String id, int size, Date date, String user) {
+	public CommitDrop(String id, int size, Date date, String user, String commitMsg) {
 		super();
 		this.id = id;
 		this.size = size;
 		this.date = date;
 		this.user = user;
+		this.commitMessage = commitMsg;
 	}
 
 	/**
@@ -223,5 +225,12 @@ public class CommitDrop {
 	 */
 	public void incrementChangeType(int index) {
 		this.changeTypes[index]++;
+	}
+	public String getCommitMessage() {
+		return commitMessage;
+	}
+
+	public void setCommitMessage(String commitMessage) {
+		this.commitMessage = commitMessage;
 	}
 }

@@ -64,7 +64,7 @@ public class GitAdapter {
 		for (Iterator<RevCommit> iterator = log.iterator(); iterator.hasNext();) {
 			RevCommit rev = iterator.next();
 			System.out.println("Loaded Commit: " + rev.getName());
-			CommitDrop d = new CommitDrop(rev.getName(), 0, new Date(rev.getCommitTime()), rev.getAuthorIdent().getName());
+			CommitDrop d = new CommitDrop(rev.getName(), 0, new Date(rev.getCommitTime()), rev.getAuthorIdent().getName(), rev.getShortMessage());
 			AddDiffData(repository, rev, d, git);
 			commits.add(d);
 		}
