@@ -77,7 +77,15 @@ public class UnityAdapter{
 				Element bFN = doc.createElement("BugFixNumber");
 				bFN.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getBugFix())));
 				commit.appendChild(bFN);
-
+				
+				Element nFN = doc.createElement("NewFeatureNumber");
+				nFN.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getNewFeature())));
+				commit.appendChild(nFN);
+				
+				Element rN = doc.createElement("RefactorNumber");
+				rN.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getRefactor())));
+				commit.appendChild(rN);
+				
 				Element numRefs = doc.createElement("NumRefs");
 				numRefs.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getNewFeature())));
 				commit.appendChild(id);
