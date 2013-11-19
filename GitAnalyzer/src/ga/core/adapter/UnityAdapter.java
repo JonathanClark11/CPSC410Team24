@@ -46,48 +46,55 @@ public class UnityAdapter{
 			Element root = doc.createElement("Commits");
 			doc.appendChild(root);
 
-			for(int i=0; i<commits.size(); i++) {
-				
+			for (CommitDrop d : commits) {
 				Element commit = doc.createElement("Commit");
 				
 				Element date = doc.createElement("Date");
-				date.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getDate())));
+				date.appendChild(doc.createTextNode(String.valueOf(d.getDate())));
 				commit.appendChild(date);
 
 				Element user = doc.createElement("User");
-				user.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getUser())));
+				user.appendChild(doc.createTextNode(String.valueOf(d.getUser())));
 				commit.appendChild(user);
 
 				Element id = doc.createElement("Id");
-				id.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getId())));
+				id.appendChild(doc.createTextNode(String.valueOf(d.getId())));
 				commit.appendChild(id);
 
 				Element size = doc.createElement("Size");
-				size.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getSize())));
+				size.appendChild(doc.createTextNode(String.valueOf(d.getSize())));
 				commit.appendChild(size);
 
 				Element merge = doc.createElement("Merge");
-				merge.appendChild(doc.createTextNode(String.valueOf(commits.get(i).isMerge())));
+				merge.appendChild(doc.createTextNode(String.valueOf(d.isMerge())));
 				commit.appendChild(merge);
 
 				Element conflict = doc.createElement("Conflict");
-				conflict.appendChild(doc.createTextNode(String.valueOf(commits.get(i).isConflict())));
+				conflict.appendChild(doc.createTextNode(String.valueOf(d.isConflict())));
 				commit.appendChild(conflict);
 
 				Element bFN = doc.createElement("BugFixNumber");
-				bFN.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getBugFix())));
+				bFN.appendChild(doc.createTextNode(String.valueOf(d.getBugFix())));
 				commit.appendChild(bFN);
 				
 				Element nFN = doc.createElement("NewFeatureNumber");
-				nFN.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getNewFeature())));
+				nFN.appendChild(doc.createTextNode(String.valueOf(d.getNewFeature())));
 				commit.appendChild(nFN);
 				
 				Element rN = doc.createElement("RefactorNumber");
-				rN.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getRefactor())));
+				rN.appendChild(doc.createTextNode(String.valueOf(d.getRefactor())));
 				commit.appendChild(rN);
 				
+				Element rS = doc.createElement("RatioSize");
+				rS.appendChild(doc.createTextNode(String.valueOf(d.getRatioSize())));
+				commit.appendChild(rS);
+				
+				Element cI = doc.createElement("ColorIntensity");
+				cI.appendChild(doc.createTextNode(String.valueOf(d.getColorIntensity())));
+				commit.appendChild(cI);
+				
 				Element numRefs = doc.createElement("NumRefs");
-				numRefs.appendChild(doc.createTextNode(String.valueOf(commits.get(i).getNewFeature())));
+				numRefs.appendChild(doc.createTextNode(String.valueOf(d.getNewFeature())));
 				commit.appendChild(id);
 				
 				root.appendChild(commit);

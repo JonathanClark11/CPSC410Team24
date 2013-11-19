@@ -1,7 +1,7 @@
 package ga.core.analysis;
 
 import ga.core.model.CommitDrop;
-//import ga.util.NormUtil;
+import ga.util.NormUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,10 +17,12 @@ public class DiffAnalyzer implements Analyzer{
 
 	public List<CommitDrop> RunAnalysis(List<CommitDrop> input) {
 		int bugFixes = 0, refactors = 0, features = 0, uncategorized = 0;
-		int maxSize = 0, minSize = -1;
+		double maxSize = 0, minSize = -1;
+		double maxColor = 0, minColor = -1;
 		System.out.println("Running Diff Analysis----------------");
+		
+		System.out.println("Loading preliminary data");
 		for (CommitDrop d : input) {
-			System.out.println("Running Diff Analysis on: " + d.getId());
 			if (d.getDiff() == null) {
 				System.out.println("NULL DIFF - Possible Root");
 				continue;
@@ -33,7 +35,14 @@ public class DiffAnalyzer implements Analyzer{
 			if (commitSize <= minSize || minSize <= 0) { //include zero to ignore 0 sized changes
 				minSize = commitSize;
 			}
-			System.out.println("Commit Size: " + commitSize);
+		}
+		for (CommitDrop d : input) {
+			System.out.println("Running Diff Analysis on: " + d.getId());
+			if (d.getDiff() == null) {
+				System.out.println("NULL DIFF - Possible Root");
+				continue;
+			}
+
 			System.out.println("CHANGE TYPES: " + Arrays.toString(d.getChangeTypes()));
 
 			//[0] = Refactor, [1] = Bug Fix, [2] = New Feature
@@ -57,11 +66,11 @@ public class DiffAnalyzer implements Analyzer{
 			}
 
 //			CHECK FOR COMMIT SIZE
-			if (commitSize < 200) {
+			if (d.getSize() < 200) {
 				pointsDist[1] += 1;
-			} else if (commitSize >= 200 && commitSize <= 400) {
+			} else if (d.getSize() >= 200 && d.getSize() <= 400) {
 				pointsDist[2] += 1;
-			} else if ((commitSize > 400 && commitSize < 1000)){
+			} else if ((d.getSize() > 400 && d.getSize() < 1000)){
 				pointsDist[0] += 1;
 			}
 			
@@ -83,14 +92,30 @@ public class DiffAnalyzer implements Analyzer{
 				break;
 			}
 			
+//			SET SIZE RATIO
+			NormUtil util = new NormUtil((double)maxSize, (double)minSize, 0.25, 50);
+			double ratioSize = util.normalize(d.getSize());
+			System.out.println("Ratio: " + ratioSize);
+			d.setRatioSize(ratioSize);
+			
+//			SET COLOUR INTENSITY
+			double colorIntensity = getSum(pointsDist);
+			d.setColorIntensity(colorIntensity);
+			if (colorIntensity > maxColor) {
+				maxColor = colorIntensity;
+			}
+			if (colorIntensity < minColor || minColor < 0) {
+				minColor = colorIntensity;
+			}
+			
 		}
 		
-//		for (CommitDrop d : input) {
-//			NormUtil util = new NormUtil((double)maxSize, (double)minSize, 0.1, 1.0);
-//			double ratioSize = util.normalize(d.getSize());
-//			System.out.println("Ratio: " + ratioSize);
-//			d.setRatioSize(ratioSize);
-//		}
+		//Normalize colour values
+		for (CommitDrop d : input) {
+			NormUtil util = new NormUtil((double)minColor, (double)maxColor, 0, 255);
+			double cI = util.normalize(d.getColorIntensity());
+			d.setColorIntensity(cI);
+		}
 		
 		System.out.println("");
 		System.out.println("Min Commit Size: " + minSize);
@@ -113,6 +138,14 @@ public class DiffAnalyzer implements Analyzer{
 		}
 		return maxIndex;
 	}
+	private int getSum(int arr[]) {
+		int sum=0;
+		for (int i = 0; i < arr.length; i++) {
+			sum += arr[i];
+		}
+		return sum;
+	}
+	
 	
 	private int findLinesChanged(String difftext) {
 		String pattern = "(@)(@) ([-+]\\d+),(\\d+) ([-+]\\d+),(\\d+) (@)(@)";

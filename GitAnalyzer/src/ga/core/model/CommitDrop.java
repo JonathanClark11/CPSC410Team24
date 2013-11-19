@@ -12,6 +12,7 @@ public class CommitDrop {
 	private String id;
 	private int size;
 	private double ratioSize;
+	private double colorIntensity;
 	private Date date;
 	private String user;
 	private boolean conflict;
@@ -235,7 +236,19 @@ public class CommitDrop {
 		this.commitMessage = commitMessage;
 	}
 	
+	public double getRatioSize() {
+		return this.ratioSize;
+	}
+	
 	public void setRatioSize(double ratioSize) {
 		this.ratioSize = ratioSize;
+	}
+
+	public double getColorIntensity() {
+		return colorIntensity;
+	}
+
+	public void setColorIntensity(double colorIntensity) {
+		this.colorIntensity = colorIntensity;
 	}
 }
