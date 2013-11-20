@@ -4,8 +4,11 @@ import ga.core.model.CommitDrop;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -46,11 +49,12 @@ public class UnityAdapter{
 			Element root = doc.createElement("Commits");
 			doc.appendChild(root);
 
+			DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 			for (CommitDrop d : commits) {
 				Element commit = doc.createElement("Commit");
 				
 				Element date = doc.createElement("Date");
-				date.appendChild(doc.createTextNode(String.valueOf(d.getDate())));
+				date.appendChild(doc.createTextNode(String.valueOf(df.format(d.getDate()))));
 				commit.appendChild(date);
 
 				Element user = doc.createElement("User");

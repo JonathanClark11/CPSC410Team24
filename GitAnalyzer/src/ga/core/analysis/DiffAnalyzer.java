@@ -19,6 +19,7 @@ public class DiffAnalyzer implements Analyzer{
 		int bugFixes = 0, refactors = 0, features = 0, uncategorized = 0;
 		double maxSize = 0, minSize = -1;
 		double maxColor = 0, minColor = -1;
+		double maxRefactor = 0, maxBugFix = 0;
 		System.out.println("Running Diff Analysis----------------");
 		
 		System.out.println("Loading preliminary data");
@@ -45,7 +46,7 @@ public class DiffAnalyzer implements Analyzer{
 
 			System.out.println("CHANGE TYPES: " + Arrays.toString(d.getChangeTypes()));
 
-			//[0] = Refactor, [1] = Bug Fix, [2] = New Feature
+//			[0] = Refactor, [1] = Bug Fix, [2] = New Feature
 			final int pointsDist[] = {0, 0, 0};
 			
 //			CHECK COMMENTS FOR HINTS
