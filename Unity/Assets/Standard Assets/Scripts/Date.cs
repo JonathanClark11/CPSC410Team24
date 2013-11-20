@@ -11,17 +11,20 @@ public class Date : MonoBehaviour {
 	private int angle = 0;
 	
 	void Start(){
-	d = dt.Day;
-	m = dt.Month;
-	y = dt.Year;
-	h = dt.Hour;
-
+		d = dt.Day;
+		m = dt.Month;
+		y = dt.Year;
+		h = dt.Hour;
+	}
+	
+	public static void setDT(DateTime time) {
+		dt = time;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		//day++;
+		//d++;
 		
 		if(Time.time > time) { 
 			angle += 15;
