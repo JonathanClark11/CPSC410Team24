@@ -3,11 +3,12 @@ using System.Collections;
 using System;
  
 public class Date : MonoBehaviour {
-	public static DateTime dt = new DateTime(2008, 1, 1, 0, 0, 0);
+	public static DateTime dt = new DateTime(2008, 1, 1, 6, 0, 0);
 	private	int d, m, y, h;
 	private int c = 0;
 	private float time = 0.0f;
 	private float scale = 0.5f;
+	private int angle = 0;
 	
 	void Start(){
 	d = dt.Day;
@@ -23,6 +24,8 @@ public class Date : MonoBehaviour {
 		//day++;
 		
 		if(Time.time > time) { 
+			angle += 15;
+			GameObject.Find("animation").transform.rotation = Quaternion.Euler(angle, 90, -90);
 			h++;
 			c++;
 			time += scale;
@@ -54,7 +57,7 @@ public class Date : MonoBehaviour {
 		else { c = 0;}		
 		//if(DateTime.Now.Millisecond % 500 != 0) { c = 0;}
 
- 
-		guiText.text = d.ToString() + "/" + m.ToString() + "/" + y.ToString() + " - " + h.ToString() + ":00" ;
+		GameObject.Find("date").GetComponent<GUIText>().text = d.ToString() + "/" + m.ToString() + "/" + y.ToString();
+		guiText.text = h.ToString() + ":00" ;
 	}
 }

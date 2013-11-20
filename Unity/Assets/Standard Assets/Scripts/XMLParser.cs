@@ -6,7 +6,7 @@ using System.Xml;
 public class XMLParser : MonoBehaviour
 {
 
-	List<Dictionary<string,string>> drops = new List<Dictionary<string,string>>();
+	public static List<Dictionary<string,string>> drops = new List<Dictionary<string,string>>();
 	Dictionary<string,string> obj;
 
     // Use this for initialization
