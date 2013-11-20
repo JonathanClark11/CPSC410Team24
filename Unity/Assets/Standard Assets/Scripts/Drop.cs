@@ -34,6 +34,9 @@ public class Drop : MonoBehaviour {
 			
 			//Update the index to the next commit
 			stopIndex++;
+			if (stopIndex > commits.Count) {
+				Application.Quit(); //reached the end of commits
+			}
 			timeToStopAt = DateTime.Parse(commits[stopIndex]["Date"]);
 		}
 	}
