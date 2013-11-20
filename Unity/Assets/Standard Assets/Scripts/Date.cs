@@ -6,8 +6,10 @@ public class Date : MonoBehaviour {
 	public static DateTime dt = new DateTime(2008, 1, 1, 6, 0, 0);
 	private	int d, m, y, h;
 	private int c = 0;
-	private float time = 0.0f;
-	private float scale = 0.5f;
+	private float timeClock = 0.0f;
+	private float timeAnim = 0.0f;
+	private float scaleClock = 0.5f;
+	private float scaleAnim = 0.1f;
 	private int angle = 0;
 	
 	void Start(){
@@ -24,14 +26,17 @@ public class Date : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		//d++;
-		
-		if(Time.time > time) { 
-			angle += 15;
+		if(Time.time > timeAnim) { 
+			angle += 3;
 			GameObject.Find("animation").transform.rotation = Quaternion.Euler(angle, 90, -90);
+			timeAnim += scaleAnim;
+		}
+		if(Time.time > timeClock) { 
+			//angle += 15;
+			//GameObject.Find("animation").transform.rotation = Quaternion.Euler(angle, 90, -90);
 			h++;
 			c++;
-			time += scale;
+			timeClock += scaleClock;
 		
 			if(c == 1){
 				if(h >  23) { 
