@@ -19,6 +19,7 @@ public class Drop : MonoBehaviour {
 		string firstdate = commits[0]["Date"];
 		firstCommitDate = DateTime.Parse (firstdate);
 		//Date.setDT(firstCommitDate);
+
 		timeToStopAt = firstCommitDate;
 	}
 	
