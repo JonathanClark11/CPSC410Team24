@@ -13,6 +13,7 @@ public class CommitDrop {
 	private int size;
 	private double ratioSize;
 	private double colorIntensity;
+	private double pointsDist[];
 	private Date date;
 	private String user;
 	private boolean conflict;
@@ -250,5 +251,13 @@ public class CommitDrop {
 
 	public void setColorIntensity(double colorIntensity) {
 		this.colorIntensity = colorIntensity;
+	}
+
+	public double[] getPointsDist() {
+		return pointsDist;
+	}
+
+	public void setPointsDist(double pointsDist[]) {
+		this.pointsDist = pointsDist;
 	}
 }

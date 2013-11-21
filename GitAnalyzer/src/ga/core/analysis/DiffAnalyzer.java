@@ -1,9 +1,9 @@
 package ga.core.analysis;
 
 import ga.core.model.CommitDrop;
+import ga.util.ArrayUtil;
 import ga.util.NormUtil;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,34 +16,22 @@ import java.util.regex.Pattern;
 public class DiffAnalyzer implements Analyzer{
 
 	public List<CommitDrop> RunAnalysis(List<CommitDrop> input) {
-		int bugFixes = 0, refactors = 0, features = 0, uncategorized = 0;
+		int bugFixes = 0, refactors = 0, features = 0;
 		double maxSize = 0, minSize = -1;
-		double maxColor = 0, minColor = -1;
-		double maxRefactor = 0, maxBugFix = 0;
+		double maxColor = 0, minColor = -1, avgColor = 0;
+		double maxDirty[] = {0, 0, 0};
 		double commitSum = 0, commitSizeAvg = 0;
 		System.out.println("Running Diff Analysis----------------");
 		
-		
-		/*
-		 * for (int i = 0; i < digits.length; i++)
-  Q = Q + (digits[i] - average) * (digits[i] - average);
-
-variance = Q / (digits.length-1);
-SD = Math.sqrt(variance);
-		 * 
-		 */
-		double Q = 0;
 		System.out.println("Loading preliminary data");
 		for (CommitDrop d : input) {
 			if (d.getDiff() == null) {
 				System.out.println("NULL DIFF - Possible Root");
 				continue;
 			}
-			int commitSize = findLinesChanged(d.getDiff());
+			int commitSize = findLinesChanged(d.getDiff(), d.getChangeTypes());
 			if (!d.isMerge()) {
 				commitSum += commitSize;
-			} else {
-				System.out.println("MERGE FOUND\n\n\n\n");
 			}
 			d.setSize(commitSize);
 			
@@ -55,10 +43,7 @@ SD = Math.sqrt(variance);
 			}
 		}
 		commitSizeAvg = commitSum / input.size();
-		
-		//GET Standard Deviation
-		
-		
+
 		for (CommitDrop d : input) {
 			System.out.println("Running Diff Analysis on: " + d.getId());
 			if (d.getDiff() == null) {
@@ -66,10 +51,10 @@ SD = Math.sqrt(variance);
 				continue;
 			}
 
-			System.out.println("CHANGE TYPES: " + Arrays.toString(d.getChangeTypes()));
+			//System.out.println("CHANGE TYPES: " + Arrays.toString(d.getChangeTypes()));
 
 //			[0] = Refactor, [1] = Bug Fix, [2] = New Feature
-			final int pointsDist[] = {0, 0, 0};
+			final double pointsDist[] = {0, 0, 0};
 			
 //			CHECK COMMENTS FOR HINTS
 			final String commitmsg = d.getCommitMessage().toLowerCase();
@@ -98,7 +83,7 @@ SD = Math.sqrt(variance);
 			}
 			
 //			TALLY UP VOTES!
-			switch (getMaxIndex(pointsDist)) {
+			switch (ArrayUtil.getMaxIndex(pointsDist)) {
 			case 0:
 				refactors++;
 				d.setRefactor(d.getRefactor()+1);
@@ -116,68 +101,63 @@ SD = Math.sqrt(variance);
 			}
 			
 //			SET SIZE RATIO
-			System.out.println("SIZE: " + d.getSize());
-			
-			NormUtil util = new NormUtil(commitSizeAvg + 100, commitSizeAvg - 100, 0.25, 5);
+			NormUtil util = new NormUtil(commitSizeAvg + 100, commitSizeAvg - 100, 0.25, 3);
 			double ratioSize = util.normalize(d.getSize());
-			System.out.println("Ratio: " + ratioSize);
 			d.setRatioSize(ratioSize);
 			
 //			SET COLOUR INTENSITY
-			double colorIntensity = getSum(pointsDist);
+			d.setPointsDist(pointsDist);
+			if(2*pointsDist[0] + pointsDist[1] > maxDirty[0]) {
+				maxDirty[0] = 2*pointsDist[0] + pointsDist[1];
+				maxDirty[1] = pointsDist[0];
+				maxDirty[2] = pointsDist[1];
+			}
+		}
+		
+		double dirtyScale = 255 / (2*maxDirty[1] + maxDirty[2]);
+		//Now get min-max
+		for (CommitDrop d : input) {
+			if (d.getDiff() == null) {
+				System.out.println("NULL DIFF - Possible Root");
+				continue;
+			}
+			double score[] = d.getPointsDist();
+			double colorIntensity = 255 - dirtyScale*(2*score[0]+score[1]);
 			d.setColorIntensity(colorIntensity);
+			avgColor += colorIntensity;
 			if (colorIntensity > maxColor) {
 				maxColor = colorIntensity;
 			}
 			if (colorIntensity < minColor || minColor < 0) {
 				minColor = colorIntensity;
 			}
-			
 		}
-		
-		//Normalize colour values
-		for (CommitDrop d : input) {
-			NormUtil util = new NormUtil((double)minColor, (double)maxColor, 0, 255);
-			double cI = util.normalize(d.getColorIntensity());
-			d.setColorIntensity(cI);
-		}
+		avgColor = avgColor / input.size();
 		
 		System.out.println("");
 		System.out.println("Min Commit Size: " + minSize);
 		System.out.println("Commit Size Avg: " + commitSizeAvg);
 		System.out.println("Max Commit Size: " + maxSize);
+		
+		System.out.println("Max Dirty: " + maxDirty[0] + ", R: " + maxDirty[1] + ", B: " + maxDirty[2]);
+		System.out.println("Dirty Scale: " + dirtyScale);
+		System.out.println("Min Colour: " + minColor);
+		System.out.println("Avg Colour: " + avgColor);
+		System.out.println("Max Colour: " + maxColor);
+		
 		System.out.println("Refactors total: " + refactors);
 		System.out.println("Bug Fixes Total: " + bugFixes);
 		System.out.println("New Features Total: " + features);
-		System.out.println("Uncategorized Total: " + uncategorized);
 		
 		return input;
 	}
 	
-	private int getMaxIndex(int arr[]) {
-		int maxIndex = 0, max=0;
-		for (int i = 0; i < arr.length; i++) {
-		    if (arr[i] > max) {
-		        max = arr[i];
-		        maxIndex = i;
-		    }
-		}
-		return maxIndex;
-	}
-	private int getSum(int arr[]) {
-		int sum=0;
-		for (int i = 0; i < arr.length; i++) {
-			sum += arr[i];
-		}
-		return sum;
-	}
 	
-	
-	private int findLinesChanged(String difftext) {
+	private int findLinesChanged(String difftext, int[] commitType) {
 		String pattern = "(@)(@) ([-+]\\d+),(\\d+) ([-+]\\d+),(\\d+) (@)(@)";
 		Pattern p = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 		Matcher m = p.matcher(difftext);
-		System.out.println("Diff Length: "+ difftext.length());
+		//System.out.println("Diff Length: "+ difftext.length());
 		int linesAdded = 0;
 		int linesRemoved = 0;
 		while (m.find())
@@ -185,7 +165,12 @@ SD = Math.sqrt(variance);
 			linesAdded += Integer.parseInt(m.group(6));
 			linesRemoved += Integer.parseInt(m.group(4));
 		}
-		return linesAdded + linesRemoved;
+		//if file deleted: don't count lines removed
+		if (commitType[2] > 0) {
+			return linesAdded;
+		} else {
+			return linesAdded + linesRemoved;
+		}
 	}
 
 }
