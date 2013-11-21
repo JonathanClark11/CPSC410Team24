@@ -20,6 +20,7 @@ public class DiffAnalyzer implements Analyzer{
 		double maxSize = 0, minSize = -1;
 		double maxColor = 0, minColor = -1;
 		double maxRefactor = 0, maxBugFix = 0;
+		double commitSum = 0, commitSizeAvg = 0;
 		System.out.println("Running Diff Analysis----------------");
 		
 		System.out.println("Loading preliminary data");
@@ -29,7 +30,9 @@ public class DiffAnalyzer implements Analyzer{
 				continue;
 			}
 			int commitSize = findLinesChanged(d.getDiff());
+			commitSum += commitSize;
 			d.setSize(commitSize);
+			
 			if (commitSize > maxSize) { 
 				maxSize = commitSize;
 			}
@@ -37,6 +40,7 @@ public class DiffAnalyzer implements Analyzer{
 				minSize = commitSize;
 			}
 		}
+		commitSizeAvg = commitSum / input.size();
 		for (CommitDrop d : input) {
 			System.out.println("Running Diff Analysis on: " + d.getId());
 			if (d.getDiff() == null) {
@@ -94,7 +98,9 @@ public class DiffAnalyzer implements Analyzer{
 			}
 			
 //			SET SIZE RATIO
-			NormUtil util = new NormUtil((double)maxSize, (double)minSize, 0.25, 50);
+			System.out.println("SIZE: " + d.getSize());
+			
+			NormUtil util = new NormUtil(commitSizeAvg + 500, commitSizeAvg - 500, 0.25, 50);
 			double ratioSize = util.normalize(d.getSize());
 			System.out.println("Ratio: " + ratioSize);
 			d.setRatioSize(ratioSize);
@@ -120,6 +126,7 @@ public class DiffAnalyzer implements Analyzer{
 		
 		System.out.println("");
 		System.out.println("Min Commit Size: " + minSize);
+		System.out.println("Commit Size Avg: " + commitSizeAvg);
 		System.out.println("Max Commit Size: " + maxSize);
 		System.out.println("Refactors total: " + refactors);
 		System.out.println("Bug Fixes Total: " + bugFixes);
