@@ -23,6 +23,16 @@ public class DiffAnalyzer implements Analyzer{
 		double commitSum = 0, commitSizeAvg = 0;
 		System.out.println("Running Diff Analysis----------------");
 		
+		
+		/*
+		 * for (int i = 0; i < digits.length; i++)
+  Q = Q + (digits[i] - average) * (digits[i] - average);
+
+variance = Q / (digits.length-1);
+SD = Math.sqrt(variance);
+		 * 
+		 */
+		double Q = 0;
 		System.out.println("Loading preliminary data");
 		for (CommitDrop d : input) {
 			if (d.getDiff() == null) {
@@ -30,7 +40,11 @@ public class DiffAnalyzer implements Analyzer{
 				continue;
 			}
 			int commitSize = findLinesChanged(d.getDiff());
-			commitSum += commitSize;
+			if (!d.isMerge()) {
+				commitSum += commitSize;
+			} else {
+				System.out.println("MERGE FOUND\n\n\n\n");
+			}
 			d.setSize(commitSize);
 			
 			if (commitSize > maxSize) { 
@@ -41,6 +55,10 @@ public class DiffAnalyzer implements Analyzer{
 			}
 		}
 		commitSizeAvg = commitSum / input.size();
+		
+		//GET Standard Deviation
+		
+		
 		for (CommitDrop d : input) {
 			System.out.println("Running Diff Analysis on: " + d.getId());
 			if (d.getDiff() == null) {
@@ -55,7 +73,7 @@ public class DiffAnalyzer implements Analyzer{
 			
 //			CHECK COMMENTS FOR HINTS
 			final String commitmsg = d.getCommitMessage().toLowerCase();
-			if (commitmsg.contains("merge")) {
+			if (d.isMerge()) {
 				//We need to check for conflict 
 			}
 			if (commitmsg.contains("bugfix")) {
@@ -100,7 +118,7 @@ public class DiffAnalyzer implements Analyzer{
 //			SET SIZE RATIO
 			System.out.println("SIZE: " + d.getSize());
 			
-			NormUtil util = new NormUtil(commitSizeAvg + 500, commitSizeAvg - 500, 0.25, 50);
+			NormUtil util = new NormUtil(commitSizeAvg + 100, commitSizeAvg - 100, 0.25, 5);
 			double ratioSize = util.normalize(d.getSize());
 			System.out.println("Ratio: " + ratioSize);
 			d.setRatioSize(ratioSize);

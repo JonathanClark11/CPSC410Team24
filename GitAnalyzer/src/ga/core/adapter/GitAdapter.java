@@ -66,6 +66,9 @@ public class GitAdapter {
 			System.out.println("Loaded Commit: " + rev.getName());
 			System.out.println("DATE: " + new Date(new Long(rev.getCommitTime())*1000).toGMTString());
 			CommitDrop d = new CommitDrop(rev.getName(), 0, new Date(new Long(rev.getCommitTime())*1000), rev.getAuthorIdent().getName(), rev.getShortMessage());
+			if (rev.getShortMessage().toLowerCase().contains("merge")) {
+				d.setMerge(true);
+			}
 			AddDiffData(repository, rev, d, git);
 			commits.add(d);
 		}
