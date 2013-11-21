@@ -3,7 +3,7 @@ using System.Collections;
 using System;
  
 public class Date : MonoBehaviour {
-	public static DateTime dt = new DateTime(2008, 1, 1, 6, 0, 0);
+	public static DateTime dt = new DateTime(2015, 1, 1, 6, 0, 0);
 	private	int d, m, y, h;
 	private int c = 0;
 	private float timeClock = 0.0f;
@@ -13,25 +13,21 @@ public class Date : MonoBehaviour {
 	private int angle = 0;
 	
 	void Start(){
-	d = dt.Day;
-	m = dt.Month;
-	y = dt.Year;
-	h = dt.Hour;
-
+		d = dt.Day;
+		m = dt.Month;
+		y = dt.Year;
+		h = dt.Hour;
+	}
+	
+	public static void setDT(DateTime time) {
+		dt = time;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-<<<<<<< HEAD
 		if(Time.time > timeAnim) { 
 			angle += 3;
-=======
-		//day++;
-		
-		if(Time.time > time) { 
-			angle += 15;
->>>>>>> parent of 21f7150... Unity Drops working
 			GameObject.Find("animation").transform.rotation = Quaternion.Euler(angle, 90, -90);
 			timeAnim += scaleAnim;
 		}
