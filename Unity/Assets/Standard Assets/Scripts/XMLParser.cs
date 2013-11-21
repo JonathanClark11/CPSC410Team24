@@ -1,17 +1,27 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
-public class XMLParser
+public class XMLParser : MonoBehaviour
 {
-    public static List<Dictionary<string, string>> GetDrops() {
-		List<Dictionary<string,string>> drops = new List<Dictionary<string,string>>();
-        string xmlfile = "/Users/jonclark/ws/CPSC410Team24/output/jquery.xml";
+
+	public static List<Dictionary<string,string>> drops = new List<Dictionary<string,string>>();
+	Dictionary<string,string> obj;
+
+    // Use this for initialization
+    void Start()
+    {
+        GetDrop();
+    }
+
+    public void GetDrop() {
+
+        string xmlfile = "/home/commits.xml";
 		XmlDocument xmlDoc = new XmlDocument();  //xmlDoc is the new xml Document
-		xmlDoc.Load(xmlfile); // load the file
+		xmlDoc.LoadXml(xmlfile); // load the file
 		XmlNodeList dropsList = xmlDoc.GetElementsByTagName("Commit"); // array of commits
-		Dictionary<string,string> obj;
-		
+
         foreach (XmlNode drop in dropsList)
         {
             XmlNodeList droplet = drop.ChildNodes;
@@ -51,18 +61,9 @@ public class XMLParser
                 {
                     obj.Add("NumRefs", dropInfo.InnerText);
                 }
-				if (dropInfo.Name == "RatioSize")
-                {
-                    obj.Add("RatioSize", dropInfo.InnerText);
-                }
-				if (dropInfo.Name == "ColorIntensity")
-                {
-                    obj.Add("ColorIntensity", dropInfo.InnerText);
-                }
             }
             drops.Add(obj);
         }
-		return drops;
 	}
 
 }

@@ -13,21 +13,25 @@ public class Date : MonoBehaviour {
 	private int angle = 0;
 	
 	void Start(){
-		d = dt.Day;
-		m = dt.Month;
-		y = dt.Year;
-		h = dt.Hour;
-	}
-	
-	public static void setDT(DateTime time) {
-		dt = time;
+	d = dt.Day;
+	m = dt.Month;
+	y = dt.Year;
+	h = dt.Hour;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
+<<<<<<< HEAD
 		if(Time.time > timeAnim) { 
 			angle += 3;
+=======
+		//day++;
+		
+		if(Time.time > time) { 
+			angle += 15;
+>>>>>>> parent of 21f7150... Unity Drops working
 			GameObject.Find("animation").transform.rotation = Quaternion.Euler(angle, 90, -90);
 			timeAnim += scaleAnim;
 		}
