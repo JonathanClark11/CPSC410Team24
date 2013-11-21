@@ -6,7 +6,7 @@ public class XMLParser
 {
     public static List<Dictionary<string, string>> GetDrops() {
 		List<Dictionary<string,string>> drops = new List<Dictionary<string,string>>();
-        string xmlfile = "/Users/jonclark/ws/CPSC410Team24/output/jquery.xml";
+        string xmlfile = "../output/jquery.xml";
 		XmlDocument xmlDoc = new XmlDocument();  //xmlDoc is the new xml Document
 		xmlDoc.Load(xmlfile); // load the file
 		XmlNodeList dropsList = xmlDoc.GetElementsByTagName("Commit"); // array of commits
