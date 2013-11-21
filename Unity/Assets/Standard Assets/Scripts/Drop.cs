@@ -18,8 +18,7 @@ public class Drop : MonoBehaviour {
 		//Debug.Log ("--------------------------Commits Size: " + commits.Count);
 		string firstdate = commits[0]["Date"];
 		firstCommitDate = DateTime.Parse (firstdate);
-		//Date.setDT(firstCommitDate);
-
+		firstCommitDate = new DateTime(firstCommitDate.Year, firstCommitDate.Month, firstCommitDate.Day, 6, firstCommitDate.Minute, firstCommitDate.Second);Date.setDT(firstCommitDate);
 		timeToStopAt = firstCommitDate;
 	}
 	
@@ -31,7 +30,7 @@ public class Drop : MonoBehaviour {
 			Dictionary<string,string> commit = commits[stopIndex];
 			byte color =  (byte)Convert.ToDouble(commit["ColorIntensity"]);
 			float size =  (float)Convert.ToDouble(commit["RatioSize"]);
-			particleSystem.Emit(new Vector3(UnityEngine.Random.Range(-4.25f, 4.25f),UnityEngine.Random.Range(-1.5f, 1.5f), 0), new Vector3(0, 0, 25), size/45, 10f, new Color32(color, color, color, 255));
+			particleSystem.Emit(new Vector3(UnityEngine.Random.Range(-4.25f, 4.25f),UnityEngine.Random.Range(-2f, 2f), 0), new Vector3(0, 0, 25), size/45, 10f, new Color32(color, color, color, 255));
 			
 			//Update the index to the next commit
 			stopIndex++;

@@ -3,13 +3,13 @@ using System.Collections;
 using System;
  
 public class Date : MonoBehaviour {
-	public static DateTime dt = new DateTime(2015, 1, 1, 6, 0, 0);
+	public static DateTime dt = new DateTime(2007, 1, 1, 6, 0, 0);
 	private	int d, m, y, h;
 	private int c = 0;
 	private float timeClock = 0.0f;
 	private float timeAnim = 0.0f;
-	private float scaleClock = 0.5f;
-	private float scaleAnim = 0.1f;
+	private float scaleClock = 0.1f;
+	private float scaleAnim = 0.02f;
 	private int angle = 0;
 	
 	void Start(){
@@ -39,24 +39,24 @@ public class Date : MonoBehaviour {
 			timeClock += scaleClock;
 		
 			if(c == 1){
-				if(h >  23) { 
-					h = 0;
+				if(h >  24) { 
+					h = 1;
 					d++;
 				}
-				if((m == 1 || m == 3 || m == 5 || m ==  7 || m ==  8 || m ==  10 || m ==  12) && d > 30) {
-					d = 0;
+				if((m == 1 || m == 3 || m == 5 || m ==  7 || m ==  8 || m ==  10 || m ==  12) && d > 31) {
+					d = 1;
 					m++;
 				}
-				else if((m == 4 || m ==  6 || m ==  9 || m ==  11) && d > 29) {
-					d = 0;
+				else if((m == 4 || m ==  6 || m ==  9 || m ==  11) && d > 30) {
+					d = 1;
 					m++;
 				}
-				else if(m == 2 && d > 27) {
-					d = 0;
+				else if(m == 2 && d > 28) {
+					d = 1;
 					m++;
 				}
-				if(m > 11) {
-					m = 0;
+				if(m > 12) {
+					m = 1;
 					y++;
 				}
 				dt = new DateTime(y, m, d, h, 0, 0);
