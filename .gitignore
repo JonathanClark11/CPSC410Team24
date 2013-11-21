@@ -4,10 +4,6 @@
 *.class
 *.classpath
 
-output/
-output/**
-output/*
-
 
 Unity/Temp/UnityLockFile
 
