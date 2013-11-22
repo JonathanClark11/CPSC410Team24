@@ -58,10 +58,7 @@ public class DiffAnalyzer implements Analyzer{
 			
 //			CHECK COMMENTS FOR HINTS
 			final String commitmsg = d.getCommitMessage().toLowerCase();
-			if (d.isMerge()) {
-				//We need to check for conflict 
-			}
-			if (commitmsg.contains("bugfix")) {
+			if (commitmsg.contains("bugfix") || commitmsg.contains("bug") || commitmsg.contains("jira")) {
 				pointsDist[1] += 3; //clear definition of bugfix
 			}
 			
@@ -105,7 +102,7 @@ public class DiffAnalyzer implements Analyzer{
 			double ratioSize = util.normalize(d.getSize());
 			d.setRatioSize(ratioSize);
 			
-//			SET COLOUR INTENSITY
+//			SET POINTS DIST AND CALCULATE MAX DIRTY COMMIT FOR NORMALIZING
 			d.setPointsDist(pointsDist);
 			if(2*pointsDist[0] + pointsDist[1] > maxDirty[0]) {
 				maxDirty[0] = 2*pointsDist[0] + pointsDist[1];

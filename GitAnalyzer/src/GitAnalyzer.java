@@ -1,6 +1,7 @@
 import ga.core.adapter.GitAdapter;
 import ga.core.adapter.UnityAdapter;
 import ga.core.analysis.Analyzer;
+import ga.core.analysis.ConflictAnalyzer;
 import ga.core.analysis.DiffAnalyzer;
 import ga.core.model.CommitDrop;
 
@@ -18,13 +19,12 @@ import org.eclipse.jgit.api.errors.NoHeadException;
  */
 public class GitAnalyzer {
 	public static void main(String[] args) {
-		String inputDirectory = "C:/ws/apache/jquery/.git";
-		String outputFilepath = "C:/ws/apache/CPSC410Team24/output/jquery.xml";
+		String inputDirectory = "/Users/jonclark/ws/jquery/.git";
+		String outputFilepath = "/Users/jonclark/ws/CPSC410Team24/output/jquery.xml";
 		System.out.println("Input Repo: " + inputDirectory);
 		System.out.println("Output File: " + outputFilepath);
 		GitAdapter adapter = new GitAdapter(inputDirectory);
 		List<CommitDrop> commits = null;
-
 		try {
 			commits = adapter.GetJGitLog();
 		} catch (NoHeadException e) {
@@ -40,6 +40,9 @@ public class GitAnalyzer {
 		}
 		Analyzer diffAnalysis = new DiffAnalyzer();
 		commits = diffAnalysis.RunAnalysis(commits);
+		
+		Analyzer conflictAnalysis = new ConflictAnalyzer();
+		commits = conflictAnalysis.RunAnalysis(commits);
 		//		for(CommitDrop d : commits) {
 		//			System.out.println("Author: " + d.getUser());
 		//			System.out.println("CID: "+ d.getId());
