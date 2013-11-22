@@ -14,15 +14,27 @@ public class Drop : MonoBehaviour {
 	private DateTime firstCommitDate;
 	private DateTime parsedFirstDate;
 	private int stopIndex = 0;
+	private DateTime DateToStartAt;
 	
 	void Start () {
+		DateToStartAt = new DateTime(2011, 3, 15, 6, 0, 0);
 		leaderboard = new Dictionary<string, int>();
 		commits = XMLParser.GetDrops();
 		commits.Reverse();
 		//Debug.Log ("--------------------------Commits Size: " + commits.Count);
 		string firstdate = commits[0]["Date"];
 		parsedFirstDate = DateTime.Parse (firstdate);
-		firstCommitDate = new DateTime(parsedFirstDate.Year+7, parsedFirstDate.Month, parsedFirstDate.Day, 6, 0, 0);
+		
+		//firstCommitDate = new DateTime(parsedFirstDate.Year, parsedFirstDate.Month, parsedFirstDate.Day, 6, 0, 0);
+		int startIndex = 0;
+		DateTime currentCommitDate = DateTime.Parse (commits[startIndex]["Date"]);
+		while (currentCommitDate < DateToStartAt) {
+			startIndex++;
+			currentCommitDate = DateTime.Parse (commits[startIndex]["Date"]);
+		}
+		stopIndex = startIndex;
+		firstCommitDate = DateToStartAt;
+		//firstCommitDate = new DateTime(2011, 4, 1, 6, 0, 0);
 		Date.setDT(firstCommitDate);
 		timeToStopAt = firstCommitDate;
 	}
