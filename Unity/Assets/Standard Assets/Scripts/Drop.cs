@@ -10,6 +10,7 @@ public class Drop : MonoBehaviour {
 	private List<Dictionary<string, string>> commits;
 	private DateTime timeToStopAt;
 	private DateTime firstCommitDate;
+	private DateTime parsedFirstDate;
 	private int stopIndex = 0;
 	
 	void Start () {
@@ -17,8 +18,9 @@ public class Drop : MonoBehaviour {
 		commits.Reverse();
 		//Debug.Log ("--------------------------Commits Size: " + commits.Count);
 		string firstdate = commits[0]["Date"];
-		firstCommitDate = DateTime.Parse (firstdate);
-		firstCommitDate = new DateTime(firstCommitDate.Year, firstCommitDate.Month, firstCommitDate.Day, 6, firstCommitDate.Minute, firstCommitDate.Second);Date.setDT(firstCommitDate);
+		parsedFirstDate = DateTime.Parse (firstdate);
+		firstCommitDate = new DateTime(parsedFirstDate.Year, parsedFirstDate.Month, parsedFirstDate.Day, 6, 0, 0);
+		Date.setDT(firstCommitDate);
 		timeToStopAt = firstCommitDate;
 	}
 	
