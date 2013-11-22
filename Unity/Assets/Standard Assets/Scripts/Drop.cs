@@ -22,7 +22,7 @@ public class Drop : MonoBehaviour {
 		//Debug.Log ("--------------------------Commits Size: " + commits.Count);
 		string firstdate = commits[0]["Date"];
 		parsedFirstDate = DateTime.Parse (firstdate);
-		firstCommitDate = new DateTime(parsedFirstDate.Year, parsedFirstDate.Month, parsedFirstDate.Day, 6, 0, 0);
+		firstCommitDate = new DateTime(parsedFirstDate.Year+7, parsedFirstDate.Month, parsedFirstDate.Day, 6, 0, 0);
 		Date.setDT(firstCommitDate);
 		timeToStopAt = firstCommitDate;
 	}
@@ -35,8 +35,10 @@ public class Drop : MonoBehaviour {
 			Dictionary<string,string> commit = commits[stopIndex];
 			byte color =  (byte)Convert.ToDouble(commit["ColorIntensity"]);
 			float size =  (float)Convert.ToDouble(commit["RatioSize"]);
-			particleSystem.Emit(new Vector3(UnityEngine.Random.Range(-4.25f, 4.25f),UnityEngine.Random.Range(-2f, 2f), 0), new Vector3(0, 0, 25), size/45, 10f, new Color32(color, color, color, 255));
-			
+			particleSystem.Emit(new Vector3(UnityEngine.Random.Range(-4.25f, 4.25f),UnityEngine.Random.Range(-2f, 2f), 0), new Vector3(0, 0, 25), size, 10f, new Color32(color, color, color, 255));
+			if (commit["Merge"] == "true") {
+				particleSystem.Emit(new Vector3(UnityEngine.Random.Range(-4.25f, 4.25f),UnityEngine.Random.Range(-2f, 2f), 0), new Vector3(0, 0, 25), size, 10f, new Color32(color, 0, 0, 255));
+			}
 			//update leaderboard
 			if (leaderboard.ContainsKey(commit["User"]) == true) {
 				leaderboard[commit["User"]] += Convert.ToInt32 (commit["Size"]);

@@ -37,7 +37,7 @@ public class Date : MonoBehaviour {
 		
 			if(c == 1){
 				dt = dt.AddHours(1);
-				Debug.Log(dt.Hour);
+				//Debug.Log(dt.Hour);
 				/*
 				if(h >  23) { 
 					h = 0;
