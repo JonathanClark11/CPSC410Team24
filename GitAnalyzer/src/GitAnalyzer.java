@@ -19,8 +19,8 @@ import org.eclipse.jgit.api.errors.NoHeadException;
  */
 public class GitAnalyzer {
 	public static void main(String[] args) {
-		String inputDirectory = "/Users/jonclark/ws/jquery/.git";
-		String outputFilepath = "/Users/jonclark/ws/CPSC410Team24/output/jquery.xml";
+		String inputDirectory = "C:/Users/Ioana/Documents/GitHub/jquery/.git";
+		String outputFilepath = "C:/Users/Ioana/Documents/GitHub/CPSC410Team24/output/jquery.xml";
 		System.out.println("Input Repo: " + inputDirectory);
 		System.out.println("Output File: " + outputFilepath);
 		GitAdapter adapter = new GitAdapter(inputDirectory);

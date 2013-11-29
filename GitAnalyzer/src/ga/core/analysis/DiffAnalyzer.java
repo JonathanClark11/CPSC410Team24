@@ -98,7 +98,7 @@ public class DiffAnalyzer implements Analyzer{
 			}
 			
 //			SET SIZE RATIO
-			NormUtil util = new NormUtil(commitSizeAvg + 100, commitSizeAvg - 100, 0.25, 1.0);
+			NormUtil util = new NormUtil(commitSizeAvg + 50, commitSizeAvg - 100, 0.25, 1.0);
 			double trimmedSize = d.getSize();
 			trimmedSize = Math.max(trimmedSize, commitSizeAvg - 100);
 			trimmedSize = Math.min(trimmedSize,  commitSizeAvg + 100);
